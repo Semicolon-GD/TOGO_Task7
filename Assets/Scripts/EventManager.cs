@@ -60,6 +60,36 @@ public static class EventManager
     }
     
     #endregion
+
+    #region GameState Events
+
+    private static Dictionary<EventList,Action<GameState>> _eventTableGameState= new Dictionary<EventList, Action<GameState>>();
+    
+    public static void Subscribe(EventList eventName, Action<GameState> action)
+    {
+        if (!_eventTableGameState.ContainsKey(eventName))
+            _eventTableGameState[eventName] = action;
+        else _eventTableGameState[eventName] += action;
+    }
+    
+    public static void Unsubscribe(EventList eventName, Action<GameState> action)
+    {
+        if (_eventTableGameState[eventName] != null)
+            _eventTableGameState[eventName] -= action;
+        if (_eventTableGameState[eventName] == null)
+            _eventTableGameState.Remove(eventName);
+    }
+    
+    public static void Trigger(EventList eventName, GameState value)
+    {
+        if (_eventTableGameState[eventName] != null)
+            _eventTableGameState[eventName]?.Invoke(value);
+    }
+
+    
+
+    #endregion
+    
     
     #region Single GameObject Events
     

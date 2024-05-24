@@ -7,6 +7,7 @@ public enum EventList
     GameStarted,
     GameFailed,
     GameWon,
+    GameStateChange,
     CalculateScore,
     OnCollectiblePickup,
     OnObstacleHit,

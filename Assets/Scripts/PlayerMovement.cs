@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private float _horizontalMove;
     private float _left=-3f;
     private float _right=3;
-    private float _disctance;
+    private float _distance;
     private float _maxDistance;
     private void OnEnable()
     {
@@ -32,29 +32,29 @@ public class PlayerMovement : MonoBehaviour
         _maxDistance=Vector3.Distance(playerSmallLeft.transform.position,playerSmallRight.transform.position);
     }
 
-    private void Update()
+    /*private void Update()
     {
-        _disctance=Vector3.Distance(playerSmallLeft.transform.position,playerSmallRight.transform.position);
+        _distance=Vector3.Distance(playerSmallLeft.transform.position,playerSmallRight.transform.position);
         ChangePlayerObject();
-    }
+    }*/
 
-    private void ChangePlayerObject()
+    /*private void ChangePlayerObject()
     {
-        if (_disctance <= _maxDistance)
+        if (_distance <= _maxDistance)
         {
             playerBig.SetActive(true);
-            /*playerBigAnimator.SetTrigger("Flip");*/
+            /*playerBigAnimator.SetTrigger("Flip");#1#
             playerBigAnimator.SetBool("isRunning",true);
             playerSmallLeft.SetActive(false);
             playerSmallRight.SetActive(false);
         }
-        else if (_disctance>_maxDistance)
+        else if (_distance>_maxDistance)
         {
             playerBig.SetActive(false);
             playerSmallLeft.SetActive(true);
             playerSmallRight.SetActive(true);
         }
-    }
+    }*/
 
     private void StartMovement()
     {
@@ -68,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
        
        posR.x=Math.Clamp(posR.x+(horizontal*dragSensitive*Time.deltaTime),_left,_right);
        playerSmallRight.transform.position= posR;
-       Debug.Log(horizontal+"horizontal -----------------"+posR.x);
        playerSmallLeft.transform.position=Vector3.Reflect(playerSmallRight.transform.position,Vector3.right);
     }
 }
