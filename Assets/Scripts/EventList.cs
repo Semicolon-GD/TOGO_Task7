@@ -10,8 +10,5 @@ public enum EventList
     GameStateChange,
     UpdateScoreText,
     OnCollectiblePickup,
-    OnObstacleHit,
-    OnGateCrossed,
     OnHorizontalDrag,
-    OnFinishLineCrossed,
 }

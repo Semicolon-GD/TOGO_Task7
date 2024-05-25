@@ -12,6 +12,7 @@ public class CollectibleBehaviour : MonoBehaviour
       if (!other.CompareTag("Player")) return;
       if (other.gameObject.transform.parent.GetComponent<PlayerManager>().currentState is BigState) return;
       EventManager.Trigger(EventList.OnCollectiblePickup);
+      Destroy(this.gameObject);
       
    }
 }

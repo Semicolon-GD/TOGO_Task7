@@ -20,12 +20,16 @@ public class PlayerMovement : MonoBehaviour
     {
         EventManager.Subscribe(EventList.GameStarted, StartMovement);
         EventManager.Subscribe(EventList.OnHorizontalDrag, MovePlayer);
+        EventManager.Subscribe(EventList.GameFailed, () => _playerSpeed = 0);
+        EventManager.Subscribe(EventList.GameWon, () => _playerSpeed = 0);
     }
     
     private void OnDisable()
     {
         EventManager.Unsubscribe(EventList.GameStarted, StartMovement);
         EventManager.Unsubscribe(EventList.OnHorizontalDrag, MovePlayer);
+        EventManager.Unsubscribe(EventList.GameFailed, () => _playerSpeed = 0);
+        EventManager.Unsubscribe(EventList.GameWon, () => _playerSpeed = 0);
     }
 
     private void Start()

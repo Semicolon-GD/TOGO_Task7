@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] public GameObject playerBig, playerSmallRight, playerSmallLeft;
     [SerializeField] public Animator playerBigAnimator;
+    [SerializeField] private ParticleSystem playerCelebrationParticle;
 
     private float _distance;
     private float _maxDistance;
@@ -19,11 +20,19 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Subscribe(EventList.GameStarted, StartGame);
+        EventManager.Subscribe(EventList.GameFailed, GameFailed);
+        EventManager.Subscribe(EventList.GameWon, GameWon);
+        EventManager.Subscribe(EventList.OnCollectiblePickup,IncreaseBigPlayerSize);
     }
+
     
+
     private void OnDisable()
     {
         EventManager.Unsubscribe(EventList.GameStarted, StartGame);
+        EventManager.Unsubscribe(EventList.GameFailed, GameFailed);
+        EventManager.Unsubscribe(EventList.GameWon, GameWon);
+        EventManager.Unsubscribe(EventList.OnCollectiblePickup,IncreaseBigPlayerSize);
     }
     private void Start()
     {
@@ -54,13 +63,38 @@ public class PlayerManager : MonoBehaviour
     }
     public void ChangeState(IState newState)
     {
-        currentState.ExitState(this);
+        if (currentState != newState)
+            currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
     }
     void StartGame()
     {
         ChangeState(new BigState());
+    }
+    
+    void GameFailed()
+    {
+        playerSmallLeft.SetActive(false);
+        playerSmallRight.SetActive(false);
+        playerBig.SetActive(true);
+        playerBigAnimator.SetBool("isRunning",false);
+        playerBigAnimator.SetTrigger("Fall");
+    }
+    
+    void GameWon()
+    {
+        playerSmallLeft.SetActive(false);
+        playerSmallRight.SetActive(false);
+        playerBig.SetActive(true);
+        playerBigAnimator.SetBool("isRunning",false);
+        playerBigAnimator.SetTrigger("Dance");
+        playerCelebrationParticle.Play();
+    }
+    
+    private void IncreaseBigPlayerSize()
+    {
+        playerBig.transform.localScale += new Vector3(0.015f,0.05f,0.05f);
     }
 
 

@@ -10,7 +10,7 @@ public class FinishLine : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
-        EventManager.Trigger(EventList.OnFinishLineCrossed);
+        EventManager.Trigger(EventList.GameWon);
       }
    }
 

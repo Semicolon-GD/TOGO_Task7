@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    [SerializeField] private GameObject trackCam;
+    [SerializeField] private GameObject followCam;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     public GameState State;
     private void Awake()
@@ -25,13 +29,15 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Subscribe(EventList.GameStarted, StartGame);
-        EventManager.Subscribe(EventList.GameFailed, GameFailed);
+        EventManager.Subscribe(EventList.GameFailed, () => ChangeState(GameState.GameOverState));
+        EventManager.Subscribe(EventList.GameWon, () => ChangeState(GameState.GameWonState));
     }
 
     private void OnDisable()
     {
         EventManager.Unsubscribe(EventList.GameStarted, StartGame);
-        EventManager.Unsubscribe(EventList.GameFailed, GameFailed);
+        EventManager.Unsubscribe(EventList.GameFailed, () => ChangeState(GameState.GameOverState));
+        EventManager.Unsubscribe(EventList.GameWon, () => ChangeState(GameState.GameWonState));
     }
 
     public void ChangeState(GameState state)
@@ -47,9 +53,10 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameWonState:
                 Debug.Log("Game Won State");
+                trackCam.SetActive(true);
                 break;
             case GameState.GameOverState:
-                Debug.Log("Game Over State");
+                Debug.Log("Game Won State");
                 break;
         }
 
@@ -64,12 +71,6 @@ public class GameManager : MonoBehaviour
     {
         ChangeState(GameState.PlayingState);
     }
-    
-    private void GameFailed()
-    {
-        ChangeState(GameState.GameOverState);
-    }
-    
     
     #endregion
     
