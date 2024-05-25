@@ -13,7 +13,9 @@ public class PlayerManager : MonoBehaviour
     private float _maxDistance;
 
     public IState currentState;
+
     
+
     private void OnEnable()
     {
         EventManager.Subscribe(EventList.GameStarted, StartGame);
@@ -50,24 +52,17 @@ public class PlayerManager : MonoBehaviour
             ChangeState(new SmallState());
         }
     }
-    
-    void StartGame()
-    {
-        ChangeState(new BigState());
-    }
-
-
     public void ChangeState(IState newState)
     {
         currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
     }
-    
-    
-    
+    void StartGame()
+    {
+        ChangeState(new BigState());
+    }
 
 
-  
-    
+   
 }

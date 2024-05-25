@@ -6,7 +6,7 @@ namespace PlayerStateMachine
 {
     public class IdleState : IState
     {
-
+       
         public void EnterState(PlayerManager player)
         {
             player.playerSmallLeft.SetActive(false);
@@ -16,12 +16,10 @@ namespace PlayerStateMachine
 
         public void UpdateState(PlayerManager player)
         {
-           Debug.Log("Idle State Update");
         }
 
         public void ExitState(PlayerManager player)
         {
-            Debug.Log("Oyun başladı");
         }
     }
 }

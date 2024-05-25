@@ -1,4 +1,5 @@
 using System;
+using PlayerStateMachine;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,7 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private float _left=-3f;
     private float _right=3;
     private float _distance;
-    private float _maxDistance;
+    
+   
     private void OnEnable()
     {
         EventManager.Subscribe(EventList.GameStarted, StartMovement);
@@ -29,32 +31,14 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _playerSpeed = 0;
-        _maxDistance=Vector3.Distance(playerSmallLeft.transform.position,playerSmallRight.transform.position);
+    
     }
 
-    /*private void Update()
+    private void Update()
     {
-        _distance=Vector3.Distance(playerSmallLeft.transform.position,playerSmallRight.transform.position);
-        ChangePlayerObject();
-    }*/
-
-    /*private void ChangePlayerObject()
-    {
-        if (_distance <= _maxDistance)
-        {
-            playerBig.SetActive(true);
-            /*playerBigAnimator.SetTrigger("Flip");#1#
-            playerBigAnimator.SetBool("isRunning",true);
-            playerSmallLeft.SetActive(false);
-            playerSmallRight.SetActive(false);
-        }
-        else if (_distance>_maxDistance)
-        {
-            playerBig.SetActive(false);
-            playerSmallLeft.SetActive(true);
-            playerSmallRight.SetActive(true);
-        }
-    }*/
+       transform.position=transform.position+Vector3.forward * (_playerSpeed * Time.deltaTime);
+      
+    }
 
     private void StartMovement()
     {

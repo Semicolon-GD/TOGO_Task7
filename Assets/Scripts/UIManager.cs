@@ -10,10 +10,12 @@ public class UIManager : MonoBehaviour
    [SerializeField] private GameObject gameOverPanel;
    [SerializeField] private GameObject gameWonPanel;
    [SerializeField] private GameObject gamePlayPanel;
+   [SerializeField] private TMPro.TextMeshProUGUI scoreText;
    
    private void OnEnable()
    {
       EventManager.Subscribe(EventList.GameStateChange, ChangeUI);
+      EventManager.Subscribe(EventList.UpdateScoreText, UpdateScoreText);
    }
 
   
@@ -21,6 +23,7 @@ public class UIManager : MonoBehaviour
    private void OnDisable()
    {
       EventManager.Unsubscribe(EventList.GameStateChange, ChangeUI);
+      EventManager.Unsubscribe(EventList.UpdateScoreText, UpdateScoreText);
    }
    private void ChangeUI(GameState newState)
    {
@@ -35,13 +38,21 @@ public class UIManager : MonoBehaviour
             break;
          case GameState.GameWonState:
             gamePlayPanel.SetActive(false);
+            inputPanel.SetActive(false);
             gameWonPanel.SetActive(true);
             break;
          case GameState.GameOverState:
+            inputPanel.SetActive(false);
             gamePlayPanel.SetActive(false);
             gameOverPanel.SetActive(true);
             break;
       }
+   }
+
+
+   private void UpdateScoreText(float score)
+   {
+      scoreText.text=score.ToString();
    }
    
 }

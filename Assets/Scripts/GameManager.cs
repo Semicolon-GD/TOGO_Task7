@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,11 +25,13 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Subscribe(EventList.GameStarted, StartGame);
+        EventManager.Subscribe(EventList.GameFailed, GameFailed);
     }
 
     private void OnDisable()
     {
         EventManager.Unsubscribe(EventList.GameStarted, StartGame);
+        EventManager.Unsubscribe(EventList.GameFailed, GameFailed);
     }
 
     public void ChangeState(GameState state)
@@ -62,10 +65,19 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.PlayingState);
     }
     
-    
+    private void GameFailed()
+    {
+        ChangeState(GameState.GameOverState);
+    }
     
     
     #endregion
+    
+    
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     
     
 }

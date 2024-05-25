@@ -5,14 +5,14 @@ namespace PlayerStateMachine
 {
     public class BigState : IState
     {
+        
         public void EnterState(PlayerManager player)
         {
-           
+            player.playerBigAnimator.SetBool("isRunning",true);
         }
 
         public void UpdateState(PlayerManager player)
         {
-          Debug.Log("Big State Update");
         }
 
         public void ExitState(PlayerManager player)
@@ -20,7 +20,6 @@ namespace PlayerStateMachine
             player.playerSmallLeft.SetActive(true);
             player.playerSmallRight.SetActive(true);
             player.playerBig.SetActive(false);
-            Debug.Log("Arabaya dönüştüm");
         }
     }
 }

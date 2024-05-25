@@ -13,6 +13,7 @@ public static class EventManager
 
     public static void Subscribe(EventList eventName, Action action)
     {
+       
         if (!_eventTable.ContainsKey(eventName))
             _eventTable[eventName] = action;
         else _eventTable[eventName] += action;
